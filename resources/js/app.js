@@ -95,8 +95,8 @@ const store = new Vuex.Store({
   				rootState.root_result.push([[answer1, check1], [answer2, check2], [answer3, check3], [answer4, check4]]);
   				rootState.arr_questions.push(obj);
   			}
-  			console.log(rootState.arr_questions);
-  			console.log(rootState.root_result);
+  			// console.log(rootState.arr_questions);
+  			// console.log(rootState.root_result);
   		})
   		.catch(err=>console.log(err));
   	}
