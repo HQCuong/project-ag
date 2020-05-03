@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Project AG</div>
+                    <div class="card-header">Agribank cao lộc</div>
                     <button class="btn btn-primary" @click="on_start" v-if="start && !result">Bắt đầu</button>
                     <Time v-if="!start" @time_out="time_out"></Time>
                     <div class="card-body">

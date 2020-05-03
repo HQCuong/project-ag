@@ -22,7 +22,8 @@ const store = new Vuex.Store({
     answered: [],
     score: 0,
     count_ques: 0,
-    review: false
+    review: false,
+    count_wrong: 0
   },
   mutations: {
     on_start(state) {
@@ -55,6 +56,12 @@ const store = new Vuex.Store({
     reset_data(state) {
     	state.root_result = [];
     	state.arr_questions = [];
+    },
+    on_wrong(state) {
+      state.count_wrong++;
+    },
+    reset_wrong(state) {
+      state.count_wrong = 0;
     }
   },
   actions: {

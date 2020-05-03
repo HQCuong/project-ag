@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container">
 		<form action="">
 			<div v-for="each in questions" v-bind:key="each.id" v-show="each.id == index - 1">
 				<p>
@@ -33,8 +33,8 @@
 			<paginate class="pagination"
 	            :page-count="50"
 	            :click-handler="change_ques"
-	            :prev-text="'Prev'"
-	            :next-text="'Next'"
+	            :prev-text="'<<'"
+	            :next-text="'>>'"
 	            :container-class="'pagination'"
 	            :page-class="'page-item'"
 	            :page-link-class="'page-link'"
@@ -62,6 +62,9 @@
 			},
 			root_result() {
 				return this.$store.state.root_result;
+			},
+			answered() {
+				return this.$store.state.answered;
 			}
 		},
 		methods: {
@@ -81,8 +84,23 @@
 
 				var arr_radio = $("input[type='radio']:checked");
 				for (var i = 0; i < arr_radio.length; i++) {
+					if (arr_radio[i]) {
+						for (var j = this.answered.length; j <= arr_radio[i].attributes[5].value; j++) {
+							if (j == arr_radio[i].attributes[5].value) {
+								this.$store.commit('on_answer', {
+									answered: {id:j, answer: arr_radio[i].attributes[6].value}					
+								})
+							} else {
+								this.$store.commit('on_answer', {
+									answered: {id:j, answer: 'Chưa làm'}					
+								})
+							}
+						}
+					} 
+				}
+				for(var i =  this.answered.length; i < this.questions.length; i++) {
 					this.$store.commit('on_answer', {
-						answered: {id:i, answer: arr_radio[i].attributes[6].value}					
+						answered: {id:i, answer: 'Chưa làm'}					
 					})
 				}
 				// console.log(this.$store.state.answered);
@@ -105,6 +123,8 @@
 					if (arr_result[i] != 'f') {
 						if(this.root_result[i][arr_result[i] - 1][1] == 1){
 							this.$store.commit('on_score');
+						} else {
+							this.$store.commit('on_wrong');
 						}
 					} else {
 						continue;
@@ -120,6 +140,10 @@
 </script>
 
 <style scoped>
+	.box-exam{
+		width: 99%;
+	}
+
 	p {
 		border-bottom: 1px solid gray;
 	}
@@ -132,6 +156,41 @@
 		display: block;
 		margin: auto;
 		margin-top: 50px;
+	}
+
+	@media (max-width: 415px) {
+		.pagination {
+        	font-size: 0.9rem;
+    	}
+	}
+	@media (max-width: 390px) {
+		.pagination {
+        	font-size: 0.8rem;
+    	}
+	}
+
+	@media (max-width: 375px) {
+		.pagination {
+        	font-size: 0.7rem;
+    	}
+	}
+
+	@media (max-width: 360px) {
+		.pagination {
+        	font-size: 0.6rem;
+    	}
+	}
+
+	@media (max-width: 345px) {
+		.pagination {
+        	font-size: 0.5rem;
+    	}
+	}
+
+	@media (max-width: 325px) {
+		.pagination {
+        	font-size: 0.4rem;
+    	}
 	}
 </style>
 

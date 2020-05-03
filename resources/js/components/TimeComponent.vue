@@ -6,7 +6,7 @@
 			<p id="seconds"></p>
 		</div>
 		<div id="count_ques">
-			<p>số câu đã làm: {{count_ques}} trên tổng 30</p>
+			<p>số câu đã làm: {{count_ques}} trên tổng 50</p>
 		</div>
 	</div>
 </template>

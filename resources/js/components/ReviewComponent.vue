@@ -17,14 +17,14 @@
 					{{each.answer4.answer}}
 				</p>
 		</div>
-		<p v-for="each in answered" v-bind:key=" 'as' + each.id" v-show="each.id == index -1" style="margin-top: 20px; border-top: 1px solid gray">
-			Đáp án đã chọn: {{each.answer}}
+		<p v-for="each in answered" v-bind:key=" 'as' + each.id" v-show="each.id == index -1" style="margin-top: 20px; border-top: 1px solid gray;">
+			Đáp án đã chọn: <b>{{each.answer}}</b>
 		</p>
 		<paginate class="pagination"
-            :page-count="5"
+            :page-count="50"
             :click-handler="change_ques"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
+            :prev-text="'<<'"
+            :next-text="'>>'"
             :container-class="'pagination'"
             :page-class="'page-item'"
             :page-link-class="'page-link'"
@@ -78,4 +78,40 @@
     	width: 100px;
     	margin: auto;
     }
+
+	@media (max-width: 415px) {
+		.pagination {
+        	font-size: 0.9rem;
+    	}
+	}
+	
+	@media (max-width: 390px) {
+		.pagination {
+        	font-size: 0.8rem;
+    	}
+	}
+
+	@media (max-width: 375px) {
+		.pagination {
+        	font-size: 0.7rem;
+    	}
+	}
+
+	@media (max-width: 360px) {
+		.pagination {
+        	font-size: 0.6rem;
+    	}
+	}
+
+	@media (max-width: 345px) {
+		.pagination {
+        	font-size: 0.5rem;
+    	}
+	}
+
+	@media (max-width: 325px) {
+		.pagination {
+        	font-size: 0.4rem;
+    	}
+	}
 </style>

@@ -2063,6 +2063,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     root_result: function root_result() {
       return this.$store.state.root_result;
+    },
+    answered: function answered() {
+      return this.$store.state.answered;
     }
   },
   methods: {
@@ -2081,10 +2084,32 @@ __webpack_require__.r(__webpack_exports__);
       var arr_radio = $("input[type='radio']:checked");
 
       for (var i = 0; i < arr_radio.length; i++) {
+        if (arr_radio[i]) {
+          for (var j = this.answered.length; j <= arr_radio[i].attributes[5].value; j++) {
+            if (j == arr_radio[i].attributes[5].value) {
+              this.$store.commit('on_answer', {
+                answered: {
+                  id: j,
+                  answer: arr_radio[i].attributes[6].value
+                }
+              });
+            } else {
+              this.$store.commit('on_answer', {
+                answered: {
+                  id: j,
+                  answer: 'Chưa làm'
+                }
+              });
+            }
+          }
+        }
+      }
+
+      for (var i = this.answered.length; i < this.questions.length; i++) {
         this.$store.commit('on_answer', {
           answered: {
             id: i,
-            answer: arr_radio[i].attributes[6].value
+            answer: 'Chưa làm'
           }
         });
       } // console.log(this.$store.state.answered);
@@ -2110,6 +2135,8 @@ __webpack_require__.r(__webpack_exports__);
         if (arr_result[i] != 'f') {
           if (this.root_result[i][arr_result[i] - 1][1] == 1) {
             this.$store.commit('on_score');
+          } else {
+            this.$store.commit('on_wrong');
           }
         } else {
           continue;
@@ -2216,6 +2243,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
     result: function result() {
@@ -2229,6 +2261,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     all_quest: function all_quest() {
       return this.$store.state.arr_questions.length;
+    },
+    count_wrong: function count_wrong() {
+      return this.$store.state.count_wrong;
     }
   },
   methods: {
@@ -2239,6 +2274,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.commit('reset_score');
       this.$store.commit('reset_count');
       this.$store.commit('reset_answer');
+      this.$store.commit('reset_wrong');
       this.$store.commit('on_review', {
         check: false
       });
@@ -2257,6 +2293,17 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.commit('on_review', {
         check: true
       });
+    },
+    on_rank: function on_rank(score) {
+      if (score < 50) {
+        return 'Trượt';
+      } else if (score >= 50 && score < 70) {
+        return 'Trung bình';
+      } else if (score >= 70 && score < 80) {
+        return 'Khá';
+      } else {
+        return "Giỏi";
+      }
     }
   }
 });
@@ -6936,7 +6983,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\np[data-v-4cf65443] {\n\t\tborder-bottom: 1px solid gray;\n}\n.pagination[data-v-4cf65443] {\n        justify-content: center;\n}\n#confirm[data-v-4cf65443] {\n\t\tdisplay: block;\n\t\tmargin: auto;\n\t\tmargin-top: 50px;\n}\n", ""]);
+exports.push([module.i, "\n.box-exam[data-v-4cf65443]{\n\t\twidth: 99%;\n}\np[data-v-4cf65443] {\n\t\tborder-bottom: 1px solid gray;\n}\n.pagination[data-v-4cf65443] {\n        justify-content: center;\n}\n#confirm[data-v-4cf65443] {\n\t\tdisplay: block;\n\t\tmargin: auto;\n\t\tmargin-top: 50px;\n}\n@media (max-width: 415px) {\n.pagination[data-v-4cf65443] {\n        \tfont-size: 0.9rem;\n}\n}\n@media (max-width: 390px) {\n.pagination[data-v-4cf65443] {\n        \tfont-size: 0.8rem;\n}\n}\n@media (max-width: 375px) {\n.pagination[data-v-4cf65443] {\n        \tfont-size: 0.7rem;\n}\n}\n@media (max-width: 360px) {\n.pagination[data-v-4cf65443] {\n        \tfont-size: 0.6rem;\n}\n}\n@media (max-width: 345px) {\n.pagination[data-v-4cf65443] {\n        \tfont-size: 0.5rem;\n}\n}\n@media (max-width: 325px) {\n.pagination[data-v-4cf65443] {\n        \tfont-size: 0.4rem;\n}\n}\n", ""]);
 
 // exports
 
@@ -6974,7 +7021,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nbutton[data-v-057ebc76] {\n\t\tdisplay: block;\n        width: 100px;\n        margin: auto;\n        margin-bottom: 20px;\n}\n", ""]);
+exports.push([module.i, "\nbutton[data-v-057ebc76] {\n\t\tdisplay: block;\n        width: 100px;\n        margin: auto;\n        margin-bottom: 20px;\n}\n.score[data-v-057ebc76] {\n        text-align: center;\n}\n", ""]);
 
 // exports
 
@@ -6993,7 +7040,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.pagination {\n        justify-content: center;\n}\n.question {\n    \tborder-bottom: 1px solid gray;\n}\n.root_answer {\n\t\tbackground-color: yellow;\n}\nbutton {\n    \tdisplay: block;\n    \twidth: 100px;\n    \tmargin: auto;\n}\n", ""]);
+exports.push([module.i, "\n.pagination {\n        justify-content: center;\n}\n.question {\n    \tborder-bottom: 1px solid gray;\n}\n.root_answer {\n\t\tbackground-color: yellow;\n}\nbutton {\n    \tdisplay: block;\n    \twidth: 100px;\n    \tmargin: auto;\n}\n@media (max-width: 415px) {\n.pagination {\n        \tfont-size: 0.9rem;\n}\n}\n@media (max-width: 390px) {\n.pagination {\n        \tfont-size: 0.8rem;\n}\n}\n@media (max-width: 375px) {\n.pagination {\n        \tfont-size: 0.7rem;\n}\n}\n@media (max-width: 360px) {\n.pagination {\n        \tfont-size: 0.6rem;\n}\n}\n@media (max-width: 345px) {\n.pagination {\n        \tfont-size: 0.5rem;\n}\n}\n@media (max-width: 325px) {\n.pagination {\n        \tfont-size: 0.4rem;\n}\n}\n", ""]);
 
 // exports
 
@@ -38863,7 +38910,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "container" }, [
     _c(
       "form",
       { attrs: { action: "" } },
@@ -39043,8 +39090,8 @@ var render = function() {
           attrs: {
             "page-count": 50,
             "click-handler": _vm.change_ques,
-            "prev-text": "Prev",
-            "next-text": "Next",
+            "prev-text": "<<",
+            "next-text": ">>",
             "container-class": "pagination",
             "page-class": "page-item",
             "page-link-class": "page-link",
@@ -39100,7 +39147,9 @@ var render = function() {
           "div",
           { staticClass: "card" },
           [
-            _c("div", { staticClass: "card-header" }, [_vm._v("Project AG")]),
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("Agribank cao lộc")
+            ]),
             _vm._v(" "),
             _vm.start && !_vm.result
               ? _c(
@@ -39177,11 +39226,31 @@ var render = function() {
       _vm._v("Kết quả của bạn")
     ]),
     _vm._v(" "),
-    _c("p", [_vm._v("Số câu đúng: " + _vm._s(_vm.score / 2))]),
+    _c("p", [
+      _vm._v("Số câu đúng: "),
+      _c("b", [_vm._v(_vm._s(_vm.score / 2))])
+    ]),
     _vm._v(" "),
-    _c("p", [_vm._v("Số chưa làm: " + _vm._s(_vm.all_quest - _vm.count_ques))]),
+    _c("p", [
+      _vm._v("Số câu sai: "),
+      _c("b", [_vm._v(_vm._s(_vm.count_wrong))])
+    ]),
     _vm._v(" "),
-    _c("p", [_vm._v("Tổng điểm: " + _vm._s(_vm.score))])
+    _c("p", [
+      _vm._v("Số câu chưa làm: "),
+      _c("b", [_vm._v(_vm._s(_vm.all_quest - _vm.count_ques))])
+    ]),
+    _vm._v(" "),
+    _c("p", [
+      _vm._v("Xếp loại: "),
+      _c("b", [_vm._v(_vm._s(_vm.on_rank(_vm.score)))])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "score" }, [
+      _c("p", [_vm._v("Tổng điểm: ")]),
+      _vm._v(" "),
+      _c("h2", [_vm._v(_vm._s(_vm.score))])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -39302,17 +39371,20 @@ var render = function() {
               "border-top": "1px solid gray"
             }
           },
-          [_vm._v("\n\t\t\tĐáp án đã chọn: " + _vm._s(each.answer) + "\n\t\t")]
+          [
+            _vm._v("\n\t\t\tĐáp án đã chọn: "),
+            _c("b", [_vm._v(_vm._s(each.answer))])
+          ]
         )
       }),
       _vm._v(" "),
       _c("paginate", {
         staticClass: "pagination",
         attrs: {
-          "page-count": 5,
+          "page-count": 50,
           "click-handler": _vm.change_ques,
-          "prev-text": "Prev",
-          "next-text": "Next",
+          "prev-text": "<<",
+          "next-text": ">>",
           "container-class": "pagination",
           "page-class": "page-item",
           "page-link-class": "page-link",
@@ -39354,7 +39426,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { attrs: { id: "count_ques" } }, [
       _c("p", [
-        _vm._v("số câu đã làm: " + _vm._s(_vm.count_ques) + " trên tổng 30")
+        _vm._v("số câu đã làm: " + _vm._s(_vm.count_ques) + " trên tổng 50")
       ])
     ])
   ])
@@ -52656,7 +52728,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     answered: [],
     score: 0,
     count_ques: 0,
-    review: false
+    review: false,
+    count_wrong: 0
   },
   mutations: {
     on_start: function on_start(state) {
@@ -52689,6 +52762,12 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     reset_data: function reset_data(state) {
       state.root_result = [];
       state.arr_questions = [];
+    },
+    on_wrong: function on_wrong(state) {
+      state.count_wrong++;
+    },
+    reset_wrong: function reset_wrong(state) {
+      state.count_wrong = 0;
     }
   },
   actions: {
